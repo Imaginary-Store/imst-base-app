@@ -1,1 +1,1 @@
-# imst-user-registration
+# imst-base-app
