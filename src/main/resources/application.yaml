@@ -1,3 +1,28 @@
 spring:
   application:
     name: Base Application
+  profiles:
+    active: dev
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+#  data: (Spring dropped data in v4)
+  mongodb:
+    uri: mongodb+srv://${MONGO_USR}:${MONGO_PWD}@cluster0.vkbj5lg.mongodb.net/Store_DEV
+
+---
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+    metrics:
+      tags:
+        application: ${spring.application.name}
+    health:
+      mongodb:
+        enabled: true
+      show-details: always
