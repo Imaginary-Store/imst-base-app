@@ -10,4 +10,8 @@ class StarterApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void applicationStarts() {
+		StarterApplication.main(new String[] {});
+	}
 }
