@@ -2,6 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.0.2'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'jacoco'
+	id "org.sonarqube" version "7.1.0.6387"
 }
 
 group = 'org.imaginarystore'
@@ -14,13 +16,45 @@ java {
 	}
 }
 
+jacoco {
+	toolVersion
+}
+
+test {
+	exclude '**/repository/*Repo.class'
+
+	finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+	dependsOn test // tests are required to run before generating the report
+	reports {
+		xml.required = true
+	}
+}
+
+sonar {
+	properties {
+		property "sonar.projectKey", "Imaginary-Store_imst-base-app"
+		property "sonar.organization", "imaginary-store"
+	}
+}
+
 repositories {
+	mavenLocal()
 	mavenCentral()
+
+	maven {
+		url = "https://repo.repsy.io/mvn/swagata0207/imaginarystore"
+	}
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
+	implementation "org.imaginarystore.libraries:store-models:${modelsVersion}"
+	implementation "org.springframework.boot:spring-boot-starter-actuator:${actuatorVersion}"
+	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 	testImplementation 'org.springframework.boot:spring-boot-starter-data-mongodb-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
