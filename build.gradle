@@ -15,6 +15,10 @@ java {
 	}
 }
 
+test {
+	exclude '**/repository/*Repo.class'
+}
+
 sonar {
 	properties {
 		property "sonar.projectKey", "Imaginary-Store_imst-base-app"
